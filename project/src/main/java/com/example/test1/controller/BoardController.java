@@ -40,6 +40,7 @@ public class BoardController {
 		
 		return "/board/board-view";
 	}
+	
 	@RequestMapping("/board/edit.do")
 	public String edit(HttpServletRequest request,
 			Model model, 
