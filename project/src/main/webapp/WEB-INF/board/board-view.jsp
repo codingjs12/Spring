@@ -10,35 +10,19 @@
 	<title></title>
 </head>
 <style>
-	table, tr, th, td {
-        text-align: center;
-        border : 2px solid #bbb;
-        border-collapse: collapse;
-        padding : 5px;
-        }
 </style>
 <body>
 	<div id="app">
-		<table>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>조회수</th>
-				<th>작성일</th>
-			</tr>
-			<tr v-for="item in list">
-				<td>{{item.boardNo}}</td>
-				<td>
-					<a href="javascript:;" @click="fnView(item.boardNo)">{{item.title}}</a>
+		<div>
+			제목 : {{info.title}}
+		</div>	
+		<div>
+			내용 : {{info.contents}}
+		</div>
+		<div>
+			<button @click="fnEdit">수정</button>
+		</div>	
 
-				</td>
-				<td>{{item.userName}}</td>
-				<td>{{item.cnt}}</td>
-				<td>{{item.cdateTime}}</td>
-			</tr>
-		</table>
-		<button @click="fnAdd">글쓰기</button>
 	</div>
 </body>
 </html>
@@ -46,36 +30,36 @@
     const app = Vue.createApp({
         data() {
             return {
-                list : []
+                boardNo : "${map.boardNo}",
+				info : {}
             };
         },
         methods: {
-			fnBoardList() {
+			fnGetBoard : function(){
 				let self = this;
-				let nparmap = {};
+				let nparmap = {
+					boardNo : self.boardNo
+				};
 				$.ajax({
-					url:"/board/list.dox",
+					url:"/board/info.dox",
 					dataType:"json",
 					type : "POST",
 					data : nparmap,
 					success : function(data) {
-						self.list = data.list;
 						console.log(data);
+						self.info = data.info;
 					}
 				});
 			},
-			
-			fnAdd() {
-				location.href="/board/add.do"
-			},
-
-			fnView(boardNo) {
-				pageChange("/board/view.do", {boardNo : boardNo});
+			fnEdit() {
+				let self = this;
+				pageChange("/board/edit.do", {boardNo : self.boardNo});
 			}
+
         },
         mounted() {
 			let self = this;
-			this.fnBoardList();
+			self.fnGetBoard();
         }
     });
     app.mount('#app');

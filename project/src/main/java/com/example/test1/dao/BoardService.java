@@ -38,4 +38,27 @@ public class BoardService {
 		return resultMap;
 	}
 
+	public HashMap<String, Object> addBoard(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		int result = boardMapper.insertBoardList(map);
+		
+		resultMap.put("add", result);
+		
+		
+		return resultMap;
+	}
+
+	public HashMap<String, Object> getBoard(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		Board info = boardMapper.selectBoard(map);
+		
+		resultMap.put("info", info);
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
 }

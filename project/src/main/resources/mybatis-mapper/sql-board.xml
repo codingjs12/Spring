@@ -9,4 +9,18 @@
 		INNER JOIN MEMBER M ON B.USERID = M.USERID
 		ORDER BY BOARDNO
 	</select>
+	
+	<insert id="insertBoardList" parameterType="hashmap">
+		INSERT INTO BOARD (BOARDNO, TITLE, CONTENTS, USERID,  CNT, CDATETIME, UDATETIME) 
+		VALUES(BOARD_SEQ.NEXTVAL, #{title}, #{contents}, 'user01', 0 ,SYSDATE, SYSDATE)
+	</insert>
+	
+	<select id="selectBoard" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT BOARDNO, TITLE, CONTENTS
+		FROM BOARD B
+		INNER JOIN MEMBER M ON B.USERID = M.USERID
+		WHERE BOARDNO = #{boardNo}
+		ORDER BY BOARDNO
+	</select>
+	
 </mapper>
