@@ -29,6 +29,11 @@ public class UserController {
 		
 		return "/member-list";
 	}
+	@RequestMapping("/test.do") 
+	public String test1(Model model) throws Exception{
+		
+		return "/test1";
+	}
 	@RequestMapping(value = "/login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody 
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -51,5 +56,34 @@ public class UserController {
 		
 		return new Gson().toJson(resultMap);
 	}
+	
+	
+	
+	@RequestMapping(value = "/member/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String memberRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = userService.memberRemove(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/product/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String productRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = userService.productRemove(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 	
 }

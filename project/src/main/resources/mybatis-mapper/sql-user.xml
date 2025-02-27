@@ -14,7 +14,15 @@
 		FROM MEMBER
 	</select>
 	
+	<delete id="memberDelete" parameterType="hashmap">
+		DELETE FROM MEMBER
+		WHERE USERID = #{userId}
+	</delete>
 	
+	<delete id="productDelete" parameterType="hashmap">
+		DELETE FROM TBL_PRODUCT
+		WHERE ITEM_NO = #{itemNo}
+	</delete>
 	
 	
 </mapper>

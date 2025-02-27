@@ -37,4 +37,25 @@ public class UserService{
 		
 		return resultMap;
 	}
+
+	public HashMap<String, Object> memberRemove(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		userMapper.memberDelete(map);
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	public HashMap<String, Object> productRemove(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		userMapper.productDelete(map);
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
 }

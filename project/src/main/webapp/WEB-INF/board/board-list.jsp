@@ -9,10 +9,31 @@
 	<title></title>
 </head>
 <style>
+	table, tr, th, td {
+        text-align: center;
+        border : 2px solid #bbb;
+        border-collapse: collapse;
+        padding : 5px;
+        }
 </style>
 <body>
 	<div id="app">
-		
+		<table>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>조회수</th>
+				<th>작성일</th>
+			</tr>
+			<tr v-for="item in list">
+				<td>{{item.boardNo}}</td>
+				<td>{{item.title}}</td>
+				<td>{{item.userName}}</td>
+				<td>{{item.cnt}}</td>
+				<td>{{item.cdateTime}}</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>
@@ -20,27 +41,29 @@
     const app = Vue.createApp({
         data() {
             return {
-                
+				
+                list : []
             };
         },
         methods: {
-			fnLogin : function(){
+			fnBoardList : function() {
 				let self = this;
 				let nparmap = {};
 				$.ajax({
-					url:"member/list.dox",
-					dataType:"json",	
-					type : "POST", 
+					url:"/board/list.dox",
+					dataType:"json",
+					type : "POST",
 					data : nparmap,
 					success : function(data) {
-									 
+						self.list = data.list;
+						console.log(data);
 					}
 				});
 			}
 
         },
         mounted() {
-			
+			this.fnBoardList();
         }
     });
     app.mount('#app');

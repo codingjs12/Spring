@@ -12,7 +12,10 @@
 </style>
 <body>
 	<div id="app">
-		
+		<div>
+			<input id="itemNo" v-model="itemNo">
+			<button @click="fnRemove">삭제</button>
+		</div>
 	</div>
 </body>
 </html>
@@ -20,20 +23,24 @@
     const app = Vue.createApp({
         data() {
             return {
-                
+                itemNo : ""
             };
         },
         methods: {
-			fnLogin : function(){
+			fnRemove : function(){
 				let self = this;
-				let nparmap = {};
+				let nparmap = {
+					itemNo : self.itemNo
+				};
 				$.ajax({
-					url:"member/list.dox",
-					dataType:"json",	
-					type : "POST", 
+					url:"product/remove.dox",
+					dataType:"json",
+					type : "POST",
 					data : nparmap,
 					success : function(data) {
-									 
+						if(data.result == "success") {
+							alert("삭제 완료");
+						}
 					}
 				});
 			}
