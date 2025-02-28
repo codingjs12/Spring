@@ -42,9 +42,9 @@ public class BoardService {
 		
 		HashMap<String, Object> resultMap = new HashMap<>();
 		
-		int result = boardMapper.insertBoardList(map);
+		boardMapper.insertBoardList(map);
 		
-		resultMap.put("add", result);
+		resultMap.put("result","success");
 		
 		
 		return resultMap;
@@ -52,6 +52,10 @@ public class BoardService {
 
 	public HashMap<String, Object> getBoard(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		if(map.get("option").equals("SELECT")) {
+			boardMapper.updateCnt(map);
+		}
 		
 		Board info = boardMapper.selectBoard(map);
 		
@@ -61,4 +65,31 @@ public class BoardService {
 		return resultMap;
 	}
 
+	public HashMap<String, Object> editBoard(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		boardMapper.updateBoard(map);
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	
+	
+	
+	
+	
+	
+	public HashMap<String, Object> removeBoard(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		boardMapper.deleteBoard(map);
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
 }

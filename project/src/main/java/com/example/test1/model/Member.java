@@ -9,6 +9,8 @@ public class Member {
 	private String userName;
 	private String address;
 	
+	private String status;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -20,6 +22,12 @@ public class Member {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public String getAddress() {
 		return address;

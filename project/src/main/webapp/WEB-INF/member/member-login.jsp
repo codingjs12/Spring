@@ -6,22 +6,19 @@
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<title></title>
+	<title>첫번째 페이지</title>
 </head>
 <style>
-	div {
-		margin-top : 5px;
-	}
 </style>
 <body>
 	<div id="app">
-		<div> 제목 : <input v-model="title"></div>
 		<div>
-			내용 : <textarea cols="50" rows="20" v-model="contents"></textarea>
+			아이디 : <input v-model="userId">
 		</div>
 		<div>
-			<button @click="fnSave">저장</button>
+			비밀번호 : <input v-model="password" type="password" @keyup.enter="fnLogin">
 		</div>
+		<button @click="fnLogin">로그인</button>
 	</div>
 </body>
 </html>
@@ -29,35 +26,36 @@
     const app = Vue.createApp({
         data() {
             return {
-                title : "",
-				contents : "",
-				sessionId : "${sessionId}"
+                userId : "",
+				password : ""
             };
         },
         methods: {
-			fnSave() {
+            fnLogin(){
 				let self = this;
 				let nparmap = {
-					title : self.title,
-					contents : self.contents,
-					sessionId : self.sessionId
+					userId : self.userId,
+					password : self.password
 				};
 				$.ajax({
-					url:"/board/add.dox",
+					url:"/member/login.dox",
 					dataType:"json",
-					type : "POST",
+					type : "POST", 
 					data : nparmap,
-					success : function(data) {
+					success : function(data) { 
 						console.log(data);
-						alert("저장되었습니다.");
-						location.href = "/board/list.do";
+						if(data.result == "success") {
+							alert(data.member.userName + "님 환영합니다!");
+							location.href="/board/list.do";
+						} else {
+							alert("아이디 / 패스워드 확인하세요.");
+						}
 					}
 				});
-			}
-
+            }
         },
         mounted() {
-			let self = this;
+            let self = this;
         }
     });
     app.mount('#app');

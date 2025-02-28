@@ -17,7 +17,7 @@
 			내용 : <textarea cols="50" rows="20" v-model="info.contents"></textarea>
 		</div>
 		<div>
-			<button @click="fnSave">저장</button>
+			<button @click="fnEdit">저장</button>
 		</div>
 	</div>
 </body>
@@ -27,11 +27,12 @@
         data() {
             return {
                 boardNo : "${map.boardNo}",
-				info : {}
+				info : {},
+				option : "UPDATE"
             };
         },
         methods: {
-			fnGetBoard(){
+			fnGetBoard() {
 				let self = this;
 				let nparmap = {
 					boardNo : self.boardNo
@@ -46,8 +47,30 @@
 						self.info = data.info;
 					}
 				});
-			}
+			},
 
+			fnEdit() {
+				let self = this;
+				let nparmap = self.info;
+				/* 
+				let nparmap = {
+			 		boardNo : self.boardNo,
+					title : self.title,
+					contents : self.contents
+				};
+				*/
+				$.ajax({
+					url:"/board/edit.dox",
+					dataType:"json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						alert("수정되었습니다.");
+						location.href = "/board/list.do";
+					}
+				});
+			}
         },
         mounted() {
 			let self = this;
