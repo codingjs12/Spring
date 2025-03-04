@@ -41,7 +41,15 @@
 				<td>
 					<a href="javascript:;" @click="fnView(item.boardNo)">{{item.title}}</a>
 				</td>
-				<td>{{item.userName}}</td>
+				<td>
+					
+					<a href="javascript:;" v-if="sessionId == list.userId || sessionStatus == 'A'">
+						{{item.userName}}
+					</a>
+					<a v-else>
+						{{item.userName}}
+					</a>
+				</td>
 				<td>{{item.cnt}}</td>
 				<td>{{item.cdateTime}}</td>
 			</tr>
@@ -56,7 +64,9 @@
             return {
                 list : [],
 				keyword : "",
-				searchOption : "all"
+				searchOption : "all",
+				sessionId : "${sessionId}",
+				sessionStatus : "${sessionStatus}"
             };
         },
         methods: {

@@ -12,10 +12,12 @@ import net.nurigo.sdk.message.response.MultipleDetailMessageSentResponse;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -27,24 +29,20 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 @RestController
 public class SmsController {
 	
-	@Value("${sms.key}")
-	private String smsApi;
-	@Value("${sms.secretKey")
-	private String secretKey;
 	@Value("${sms.phone}")
 	private String phone;
 	
-	
-
     final DefaultMessageService messageService;
 
     public SmsController() {
         // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
-        this.messageService = NurigoApp.INSTANCE.initialize("INSERT_API_KEY", "INSERT_API_SECRET_KEY", "https://api.coolsms.co.kr");
+    	this.messageService = NurigoApp.INSTANCE.initialize("NCSUEBYLKFIMQTRE", "OC4ZU10NBXIJMLZO1IWXJJORYOXN64AB", "https://api.coolsms.co.kr");
     }
 
     /**
@@ -103,18 +101,37 @@ public class SmsController {
      * 단일 메시지 발송 예제
      */
     @PostMapping("/send-one")
-    public SingleMessageSentResponse sendOne() {
+    public HashMap<String, Object> sendOne(@RequestParam("phoneNumber") String phoneNumber) {
         Message message = new Message();
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom("발신번호 입력");
-        message.setTo("수신번호 입력");
-        message.setText("한글 45자, 영자 90자 이하 입력되면 자동으로 SMS타입의 메시지가 추가됩니다.");
+        String ranStr = randomNumber();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        message.setFrom(phone);
+        message.setTo(phoneNumber);
+        message.setText("[본인 인증] 인증번호 " + ranStr + " 를 입력하세요.");
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
-
-        return response;
+        map.put("response", response);
+        map.put("ranStr", ranStr);
+        return map;
     }
+    
+    //0~9 랜덤 숫자 뽑아서 6번 이어 붙이기
+    public String randomNumber() {
+    	
+    	Random ran = new Random();
+    	String ranStr = "";
+    	
+    	for(int i = 0; i < 6; i++) {
+    		int num = ran.nextInt(10);
+    		ranStr += Integer.toString(num);
+    	}
+    	
+    	return ranStr;
+    }
+    
+    
 
     /**
      * MMS 발송 예제
