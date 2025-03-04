@@ -27,15 +27,16 @@
         data() {
             return {
                 boardNo : "${map.boardNo}",
-				info : {},
-				option : "UPDATE"
+				info : {}
+				
             };
         },
         methods: {
 			fnGetBoard() {
 				let self = this;
 				let nparmap = {
-					boardNo : self.boardNo
+					boardNo : self.boardNo,
+					option : "UPDATE"
 				};
 				$.ajax({
 					url:"/board/info.dox",

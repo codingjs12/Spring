@@ -25,6 +25,12 @@ public class MemberController {
 		return "/member/member-login";
 	}
 	
+	@RequestMapping("/member/add.do")
+	public String add(Model model) throws Exception {
+		
+		return "/member/member-add";
+	}
+	
 	@RequestMapping(value = "/member/login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody 
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -32,6 +38,28 @@ public class MemberController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		resultMap = memberService.memberLogin(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/member/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.memberAdd(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/member/check.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String check(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.checkMember(map);
 		
 		return new Gson().toJson(resultMap);
 	}

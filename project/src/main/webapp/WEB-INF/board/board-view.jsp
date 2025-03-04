@@ -63,8 +63,7 @@
 			},
 
 			fnEdit() {
-				let self = this;
-				pageChange("/board/edit.do", {boardNo : self.boardNo});
+				pageChange("/board/edit.do", {boardNo : this.boardNo});
 			},
 
 			fnRemove() {

@@ -35,8 +35,37 @@ public class MemberService {
 			resultMap.put("result", "success");
 		} else {
 			System.out.println("실패");
-			resultMap.put("result", "success");
+			resultMap.put("result", "fail");
 		}
+		return resultMap;
+	}
+
+
+	public HashMap<String, Object> memberAdd(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		int num = memberMapper.insertMember(map);
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+
+	public HashMap<String, Object> checkMember(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		Member member = memberMapper.checkMember(map);
+		if(member == null) {
+			System.out.println("사용가능한 아이디");
+			resultMap.put("result", "success");
+		} else {
+			System.out.println("중복");
+			resultMap.put("result", "fail");
+		}
+		
 		return resultMap;
 	}
 }
