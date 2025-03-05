@@ -34,6 +34,7 @@
 		</div>
 		<table>
 			<tr>
+				<th><input type="checkbox" @click="fnAllCheck"></th>
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성자</th>
@@ -41,12 +42,12 @@
 				<th>작성일</th>
 			</tr>
 			<tr v-for="item in list">
+				<td><input type="checkbox" :value="item.boardNo" v-model="selectList"></td>
 				<td>{{item.boardNo}}</td>
 				<td>
 					<a href="javascript:;" @click="fnView(item.boardNo)">{{item.title}}</a>
 				</td>
 				<td>
-					
 					<a href="javascript:;" v-if="sessionId == item.userId || sessionStatus == 'A'" @click="fnGetUser(item.userId)">
 						{{item.userName}}
 					</a>
@@ -59,6 +60,7 @@
 			</tr>
 		</table>
 		<button @click="fnAdd">글쓰기</button>
+		<button @click="fnRemove">테스트</button>
 	</div>
 </body>
 </html>
@@ -70,7 +72,9 @@
 				keyword : "",
 				searchOption : "all",
 				sessionId : "${sessionId}",
-				sessionStatus : "${sessionStatus}"
+				sessionStatus : "${sessionStatus}",
+				selectList : [],
+				checked : false
             };
         },
         methods: {
@@ -114,7 +118,25 @@
 						console.log(data);
 					}
 				});
+			},
+			
+			fnRemove() {
+				let self = this;
+				console.log(self.selectList);
+			},
+
+			fnAllCheck() {
+				let self = this;
+				self.checked = !self.checked;
+				if(self.checked) {
+					for(let i = 0; i < self.list.length; i++) {
+						self.selectList.push(self.list[i].boardNo);
+					}
+				} else {
+					self.selectList = [];
+				}
 			}
+
         },
         mounted() {
 			let self = this;
