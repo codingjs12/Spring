@@ -68,4 +68,25 @@ public class MemberService {
 		
 		return resultMap;
 	}
+	
+	
+	
+	public HashMap<String, Object> getMember(HashMap<String, Object> map) {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		Member member = memberMapper.checkMember(map);
+		
+		if(member != null) {
+			resultMap.put("member", member);
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+	
+
+	
 }

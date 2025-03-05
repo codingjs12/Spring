@@ -16,6 +16,10 @@
         border-collapse: collapse;
         padding : 5px;
         }
+	a {
+		text-decoration: none;
+	}
+
 </style>
 <body>
 	<div id="app">
@@ -43,7 +47,7 @@
 				</td>
 				<td>
 					
-					<a href="javascript:;" v-if="sessionId == list.userId || sessionStatus == 'A'">
+					<a href="javascript:;" v-if="sessionId == item.userId || sessionStatus == 'A'" @click="fnGetUser(item.userId)">
 						{{item.userName}}
 					</a>
 					<a v-else>
@@ -94,6 +98,22 @@
 
 			fnView(boardNo) {
 				pageChange("/board/view.do", {boardNo : boardNo});
+			},
+
+			fnGetUser(userId) {
+				let self = this;
+				let nparmap = {
+					userId : userId
+				};
+				$.ajax({
+					url:"/member/get.dox",
+					dataType:"json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+					}
+				});
 			}
         },
         mounted() {
