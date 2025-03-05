@@ -22,26 +22,32 @@
 	<div id="app">
 		<table>
 			<tr>
+				<th><input type="checkbox" @click="fnAllCheck"></th>
 				<th>아이디</th>
 				<th>이름</th>
 				<th>주소</th>
 				<th>삭제</th>
 			</tr>
 			<tr v-for="item in list">
+				<td><input type="checkbox" :value="item.userId" v-model="selectList"></td>
 				<td>{{item.userId}}</td>
 				<td>{{item.userName}}</td>
 				<td>{{item.address}}</td>
 				<td><button @click="fnRemove(item.userId)">삭제</button></td>
 			</tr>
 		</table>
+		<button @click="fnRemoveList">삭제</button>
 	</div>
+
 </body>
 </html>
 <script>
     const app = Vue.createApp({
         data() {
             return {
-				list : []
+				list : [],
+				checked : false,
+				selectList : []
             };
         },
         methods: {
@@ -77,7 +83,39 @@
 						}
 					}
 				});
+			},
+
+			fnAllCheck() {
+				let self = this;
+				self.checked = !self.checked;
+				if(self.checked) {
+					for(let i = 0; i < self.list.length; i++) {
+						self.selectList.push(self.list[i].userId);
+					}
+				} else {
+					self.selectList = [];
+				}
+			},
+
+			fnRemoveList() {
+				let self = this;
+				let nparmap = {
+					selectList : JSON.stringify(self.selectList)
+				};
+				$.ajax({
+					url:"/member/remove-list.dox",
+					dataType:"json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						alert("삭제되었습니다!!!");
+						self.fnMemberList();
+					}
+				});
 			}
+
+
 		},
         mounted() {
            	let self = this;

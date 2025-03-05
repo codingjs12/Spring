@@ -21,7 +21,7 @@ public class MemberService {
 	
 	public HashMap<String, Object> memberLogin(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		Member member = memberMapper.getMember(map);
 		
@@ -43,7 +43,7 @@ public class MemberService {
 
 	public HashMap<String, Object> memberAdd(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		int num = memberMapper.insertMember(map);
 		
@@ -55,7 +55,7 @@ public class MemberService {
 
 	public HashMap<String, Object> checkMember(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		Member member = memberMapper.checkMember(map);
 		if(member == null) {
@@ -73,7 +73,7 @@ public class MemberService {
 	
 	public HashMap<String, Object> getMember(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		Member member = memberMapper.checkMember(map);
 		
@@ -84,6 +84,15 @@ public class MemberService {
 			resultMap.put("result", "fail");
 		}
 		
+		return resultMap;
+	}
+
+
+	public HashMap<String, Object> removeMemberList(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		memberMapper.removeMemberList(map);
+		resultMap.put("result", "success");
 		return resultMap;
 	}
 	

@@ -53,16 +53,23 @@
 	</update>
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	<delete id="deleteBoard" parameterType="hashmap">
 		DELETE FROM BOARD
 		WHERE BOARDNO = #{boardNo}
 	</delete>
+	
+	
+	<delete id="deleteBoardList" parameterType="hashmap">
+		DELETE FROM BOARD
+		WHERE BOARDNO IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	
+	
+	
+	
 	
 </mapper>

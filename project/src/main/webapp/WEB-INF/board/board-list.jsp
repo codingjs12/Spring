@@ -60,7 +60,7 @@
 			</tr>
 		</table>
 		<button @click="fnAdd">글쓰기</button>
-		<button @click="fnRemove">테스트</button>
+		<button @click="fnRemove">삭제</button>
 	</div>
 </body>
 </html>
@@ -122,7 +122,20 @@
 			
 			fnRemove() {
 				let self = this;
-				console.log(self.selectList);
+				let nparmap = {
+					selectList : JSON.stringify(self.selectList)
+				};
+				$.ajax({
+					url:"/board/remove-list.dox",
+					dataType:"json",
+					type : "POST",
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						alert("삭제되었습니다!!!");
+						self.fnBoardList();
+					}
+				});
 			},
 
 			fnAllCheck() {

@@ -92,4 +92,12 @@ public class BoardService {
 		
 		return resultMap;
 	}
+
+		
+	public HashMap<String, Object> removeBoardList(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		boardMapper.deleteBoardList(map);
+		resultMap.put("result", "success");
+		return resultMap;
+	}
 }

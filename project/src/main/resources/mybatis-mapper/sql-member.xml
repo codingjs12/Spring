@@ -20,4 +20,11 @@
 		FROM MEMBER
 		WHERE USERID = #{userId}
 	</select>
+		<delete id="removeMemberList" parameterType="hashmap">
+		DELETE FROM MEMBER
+		WHERE USERID IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

@@ -1,6 +1,7 @@
 package com.example.test1.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.test1.dao.BoardService;
+import com.example.test1.mapper.BoardMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @Controller
@@ -55,7 +59,7 @@ public class BoardController {
 	@ResponseBody 
 	public String list(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = boardService.getBoardList(map);
 		
@@ -66,7 +70,7 @@ public class BoardController {
 	@ResponseBody 
 	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = boardService.addBoard(map);
 		
@@ -78,7 +82,7 @@ public class BoardController {
 	@ResponseBody 
 	public String boardInfo(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = boardService.getBoard(map);
 		
@@ -89,28 +93,46 @@ public class BoardController {
 	@ResponseBody 
 	public String boardEdit(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = boardService.editBoard(map);
 		
 		return new Gson().toJson(resultMap);
 	}
 	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(value = "/board/delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody 
 	public String boardRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = boardService.removeBoard(map);
 		
 		return new Gson().toJson(resultMap);
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/board/remove-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String boardRemoveList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		String json = map.get("selectList").toString();
+		ObjectMapper mapper = new ObjectMapper();
+		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
+		map.put("list", list);
+		
+		resultMap = boardService.removeBoardList(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
+	
+	
 
 }
