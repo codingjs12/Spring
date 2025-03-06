@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.file.entity.Img;
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
 import com.example.test1.model.Comment;
@@ -57,9 +58,9 @@ public class BoardService {
 		Board info = boardMapper.selectBoard(map);
 		List<Comment> cmtList = boardMapper.selectCmtList(map);
 		
+		List<Img> fileList = boardMapper.selectFileList(map);
 		
-		
-		
+		resultMap.put("fileList", fileList);
 		resultMap.put("cmtList", cmtList);
 		resultMap.put("info", info);
 		resultMap.put("result", "success");

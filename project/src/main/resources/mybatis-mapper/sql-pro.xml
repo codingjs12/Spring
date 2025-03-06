@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.professor.mapper.ProMapper">
+	<select id="selectProList" parameterType="hashmap" resultType="com.example.test1.professor.entity.Professor">
+	select profno, name, id, position, pay, hiredate, nvl(bonus, 0) as bonus, deptno, email, nvl(hpage,'없음') as hpage
+	from professor
+	</select>
+	
+</mapper>

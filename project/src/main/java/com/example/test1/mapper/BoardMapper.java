@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.test1.file.entity.Img;
 import com.example.test1.model.Board;
 import com.example.test1.model.Comment;
 
@@ -32,5 +33,7 @@ public interface BoardMapper {
 	void insertComment(HashMap<String, Object> map);
 
 	void insertBoardFile(HashMap<String, Object> map);
+
+	List<Img> selectFileList(HashMap<String, Object> map);
 
 }

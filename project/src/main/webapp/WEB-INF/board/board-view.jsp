@@ -22,6 +22,9 @@
 		<div>
             제목 : {{info.title}}
         </div>
+        <div v-for="item in fileList">
+            <img :src="item.filePath">
+        </div>
         <div>
             내용 : <div v-html="info.contents"></div>
         </div>
@@ -57,7 +60,8 @@
                 sessionId : "${sessionId}",
                 sessionStatus : "${sessionStatus}",
                 cmtList : [],
-				contents : ""
+				contents : "",
+                fileList : []
 
             };
         },
@@ -77,6 +81,7 @@
 						console.log(data);
                         self.info = data.info;
                         self.cmtList = data.cmtList;
+                        self.fileList = data.fileList;
 					}
 				});
             },
