@@ -22,6 +22,8 @@
 <body>
 	<div id="app">
 		<div> 제목 : <input v-model="title"></div>
+		<input type="file" id="file1" name="file1">
+        
 		<div style="width: 500px; height: 300px;">
 			<div id="editor">
 				
@@ -58,10 +60,31 @@
 					success : function(data) {
 						console.log(data);
 						alert("저장되었습니다.");
-						location.href = "/board/list.do";
+						if($("#file1")[0].files.length > 0) {
+							let form = new FormData();
+	            			form.append("file1", $("#file1")[0].files[0]);
+	            			form.append("boardNo", data.boardNo); // pk
+	            			self.upload(form);
+						} else {
+							location.href = "/board/list.do";
+						}
 					}
 				});
-			}
+			},
+
+            upload(form) {
+                let self = this;
+	            $.ajax({
+		            url : "/fileUpload.dox",
+	                type : "POST",
+	                processData : false,
+	                contentType : false,
+	                data : form,
+	                success: function(response) { 
+                        
+	                }	           
+                });
+            }
 
         },
 

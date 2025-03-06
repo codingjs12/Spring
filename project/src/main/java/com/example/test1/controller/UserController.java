@@ -39,7 +39,7 @@ public class UserController {
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = userService.userLogin(map);
 		
@@ -50,7 +50,7 @@ public class UserController {
 	public String memberList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = userService.memberList(map);
 		
@@ -64,7 +64,7 @@ public class UserController {
 	public String memberRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = userService.memberRemove(map);
 		
@@ -76,7 +76,7 @@ public class UserController {
 	public String productRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = userService.productRemove(map);
 		

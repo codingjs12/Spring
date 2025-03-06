@@ -17,7 +17,7 @@ public class UserService{
 	UserMapper userMapper;
 	
 	public HashMap<String, Object> userLogin(HashMap<String, Object> map) {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 			User user = userMapper.userMapperLogin(map);
 			
@@ -30,7 +30,7 @@ public class UserService{
 	}
 
 	public HashMap<String, Object> memberList(HashMap<String, Object> map) {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		List<Member> list = userMapper.getUserList(map);
 		resultMap.put("list", list);
@@ -40,7 +40,7 @@ public class UserService{
 
 	public HashMap<String, Object> memberRemove(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		userMapper.memberDelete(map);
 		
 		resultMap.put("result", "success");
@@ -50,7 +50,7 @@ public class UserService{
 
 	public HashMap<String, Object> productRemove(HashMap<String, Object> map) {
 		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		userMapper.productDelete(map);
 		

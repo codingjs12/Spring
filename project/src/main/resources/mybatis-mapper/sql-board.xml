@@ -9,67 +9,93 @@
 		INNER JOIN MEMBER M ON B.USERID = M.USERID
 		WHERE 1=1
 		<if test="searchOption != null and searchOption == 'all'">
-			AND (TITLE LIKE '%' || #{keyword} || '%'
-			OR USERNAME LIKE '%' || #{keyword} || '%')
+			AND (TITLE LIKE '%' || #{keyword} || '%' 
+					OR USERNAME LIKE '%' || #{keyword} || '%') 
 		</if>
-		
 		<if test="searchOption != null and searchOption == 'title'">
-			AND (TITLE LIKE '%' || #{keyword} || '%')
+			AND TITLE LIKE '%' || #{keyword} || '%'
 		</if>
-		
 		<if test="searchOption != null and searchOption == 'name'">
-			AND (USERNAME LIKE '%' || #{keyword} || '%')
+			AND USERNAME LIKE '%' || #{keyword} || '%' 
 		</if>
-		
-		ORDER BY BOARDNO
+		ORDER BY B.CDATETIME DESC
+		OFFSET #{page} ROWS FETCH NEXT #{pageSize} ROWS ONLY
 	</select>
 	
-	<insert id="insertBoardList" parameterType="hashmap">
-		INSERT INTO BOARD (BOARDNO, TITLE, CONTENTS, USERID,  CNT, CDATETIME, UDATETIME) 
-		VALUES(BOARD_SEQ.NEXTVAL, #{title}, #{contents}, #{sessionId}, 0 ,SYSDATE, SYSDATE)
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyColumn="boardNo" keyProperty="boardNo">
+		INSERT INTO BOARD(BOARDNO, TITLE, CONTENTS, USERID, CNT, CDATETIME, UDATETIME)
+		VALUES(BOARD_SEQ.NEXTVAL, #{title}, #{contents}, #{sessionId}, 0, SYSDATE, SYSDATE)
 	</insert>
 	
 	<select id="selectBoard" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT BOARDNO, TITLE, CONTENTS, CNT, M.USERID
-		FROM BOARD B
-		INNER JOIN MEMBER M ON B.USERID = M.USERID
+		SELECT * 
+		FROM BOARD
 		WHERE BOARDNO = #{boardNo}
-		ORDER BY BOARDNO
+		
 	</select>
-	
 	<update id="updateBoard" parameterType="hashmap">
 		UPDATE BOARD
 		SET
-		TITLE = #{title},
-		CONTENTS = #{contents}
+			TITLE = #{title},
+			CONTENTS = #{contents}
 		WHERE BOARDNO = #{boardNo}
 	</update>
 	
 	<update id="updateCnt" parameterType="hashmap">
 		UPDATE BOARD
 		SET
-		CNT = CNT + 1
+			CNT = CNT + 1
 		WHERE BOARDNO = #{boardNo}
 	</update>
 	
-	
 	<delete id="deleteBoard" parameterType="hashmap">
-		DELETE FROM BOARD
+		DELETE 
+		FROM BOARD 
 		WHERE BOARDNO = #{boardNo}
 	</delete>
 	
-	
 	<delete id="deleteBoardList" parameterType="hashmap">
-		DELETE FROM BOARD
-		WHERE BOARDNO IN
+		DELETE 
+		FROM BOARD
+		WHERE BOARDNO IN 
 		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
 			#{item}
 		</foreach>
 	</delete>
 	
+	<select id="selectBoardCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) 
+		FROM BOARD B
+		INNER JOIN MEMBER M ON B.USERID = M.USERID
+		WHERE 1=1
+		<if test="searchOption != null and searchOption == 'all'">
+			AND (TITLE LIKE '%' || #{keyword} || '%' 
+					OR USERNAME LIKE '%' || #{keyword} || '%') 
+		</if>
+		<if test="searchOption != null and searchOption == 'title'">
+			AND TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchOption != null and searchOption == 'name'">
+			AND USERNAME LIKE '%' || #{keyword} || '%' 
+		</if>
+		
+		
+	</select>
 	
+	<select id="selectCmtList" parameterType="hashmap" resultType="com.example.test1.model.Comment">
+		SELECT *
+		FROM BOARD_COMMENT
+		WHERE BOARDNO = #{boardNo}
+	</select>
 	
+	<insert id="insertComment" parameterType="hashmap">
+		INSERT INTO BOARD_COMMENT
+		VALUES (COMMENT_SEQ.NEXTVAL, #{boardNo}, #{userId}, #{contents}, NULL, SYSDATE, SYSDATE)
+	</insert>
 	
-	
+	<insert id="insertBoardFile" parameterType="hashmap">
+		INSERT INTO BOARD_FILE
+		VALUES (FILE_SEQ.NEXTVAL, #{boardNo}, #{path}, #{filename}, #{originFilename}, #{size}, #{extName})
+	</insert>
 	
 </mapper>

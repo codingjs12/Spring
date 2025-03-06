@@ -27,4 +27,12 @@
 			#{item}
 		</foreach>
 	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
