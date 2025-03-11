@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.product.mapper.ProductMapper">
+	<select id="selectProductList" parameterType="hashmap" resultType="com.example.test1.product.model.Product">
+		SELECT *
+		FROM TBL_PRODUCT_IMG I
+		INNER JOIN TBL_PRODUCT P ON I.ITEM_NO = P.ITEM_NO
+		AND I.THUMBNAIL = 'Y'
+	</select>
+	
+	<select id="selectProduct" parameterType="hashmap" resultType="com.example.test1.product.model.Product">
+		SELECT *
+		FROM TBL_PRODUCT_IMG I
+		INNER JOIN TBL_PRODUCT P ON I.ITEM_NO = P.ITEM_NO
+		AND I.THUMBNAIL = 'Y'
+		WHERE I.ITEM_NO = #{itemNo}
+	</select>
+	
+</mapper>
