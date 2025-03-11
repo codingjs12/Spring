@@ -3,6 +3,8 @@ package com.example.test1.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,18 @@ public class MemberController {
 	public String add(Model model) throws Exception {
 		
 		return "/member/member-add";
+	}
+	
+	@RequestMapping("/member/pwd.do")
+	public String pwd(Model model) throws Exception {
+		
+		return "/member/pwd-search";
+	}
+	
+	@RequestMapping("/member/pwd-change.do")
+	public String change(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("map", map);
+		return "/member/pwd-change";
 	}
 	
 	@RequestMapping(value = "/member/login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -78,6 +92,8 @@ public class MemberController {
 		
 		return new Gson().toJson(resultMap);
 	}
+	
+
 	
 	@RequestMapping(value = "/member/remove-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody 

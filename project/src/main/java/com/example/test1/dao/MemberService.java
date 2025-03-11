@@ -101,6 +101,7 @@ public class MemberService {
 		resultMap.put("result", "success");
 		return resultMap;
 	}
+
 	
 
 	

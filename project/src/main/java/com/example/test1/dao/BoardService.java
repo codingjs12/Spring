@@ -68,7 +68,6 @@ public class BoardService {
 	}
 
 	public HashMap<String, Object> editBoard(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<>();
 		boardMapper.updateBoard(map);
 		resultMap.put("result", "success");
