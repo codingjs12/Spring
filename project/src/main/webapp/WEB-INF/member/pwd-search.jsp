@@ -37,7 +37,7 @@
         methods: {
             fnAuth() {
                 let self = this;
-
+                
                 IMP.certification({
                 channelKey: "channel-key-56d9dabc-9665-4490-addd-b985845d5902",
                 merchant_uid: "merchant_"+new Date().getTime(),
@@ -70,7 +70,7 @@
 						console.log(data);
                         if(data.result == "success") {
                             
-                            pageChange("/member/pwd-change.do", {userid : this.userid});
+                            pageChange("/member/pwd-change.do", {userId : self.userId});
                         } else {
                             alert("존재하지 않는 아이디");
                         }

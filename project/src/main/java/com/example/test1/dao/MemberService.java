@@ -102,6 +102,16 @@ public class MemberService {
 		return resultMap;
 	}
 
+
+	public HashMap<String, Object> editMember(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		memberMapper.updateMember(map);
+		resultMap.put("result", "success");
+		return resultMap;
+		
+	}
+
 	
 
 	

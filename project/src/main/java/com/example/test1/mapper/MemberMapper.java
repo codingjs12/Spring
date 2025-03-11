@@ -17,5 +17,7 @@ public interface MemberMapper {
 
 	void removeMemberList(HashMap<String, Object> map);
 
+	void updateMember(HashMap<String, Object> map);
+
 	
 }

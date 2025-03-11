@@ -37,8 +37,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/pwd.do")
-	public String pwd(Model model) throws Exception {
-		
+	public String pwd(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("map", map);
 		return "/member/pwd-search";
 	}
 	
@@ -89,6 +89,17 @@ public class MemberController {
 		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		resultMap = memberService.getMember(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/member/change-pwd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String change(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		resultMap = memberService.editMember(map);
 		
 		return new Gson().toJson(resultMap);
 	}

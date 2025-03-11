@@ -19,7 +19,7 @@
             비밀번호 확인 :
             <input v-model="pwdCheck">
         </div>
-        <button @click>수정</button>
+        <button @click="fnChange">수정</button>
 
 
 	</div>
@@ -29,13 +29,25 @@
     const app = Vue.createApp({
         data() {
             return {
-                userId : "${map.userId}"
+                userId : "${map.userId}",
+                pwd : "",
+                pwdCheck : ""
+                
             };
         },
         methods: {
             fnChange() {
 				let self = this;
-				let nparmap = self.user;
+				let nparmap = {
+                    userId : self.userId,
+                    pwd : self.pwd
+                };
+
+                if(self.pwd != self.pwdCheck) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+
 				$.ajax({
 					url:"/member/change-pwd.dox",
 					dataType:"json",
