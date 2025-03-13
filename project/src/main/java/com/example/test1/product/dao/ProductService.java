@@ -36,6 +36,26 @@ public class ProductService {
 		
 		return resultMap;
 	}
+
+	public HashMap<String, Object> addProduct(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		productMapper.insertProduct(map);
+		
+		resultMap.put("itemNo", map.get("itemNo"));
+		resultMap.put("result", "success");
+		
+		return resultMap;
+		
+		
+	}
+
+	public HashMap<String, Object> addProductImg(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		productMapper.insertProductFile(map);
+		resultMap.put("result", "success");
+		return resultMap;
+	}
 	
 	
 

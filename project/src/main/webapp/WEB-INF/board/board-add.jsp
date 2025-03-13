@@ -22,7 +22,7 @@
 <body>
 	<div id="app">
 		<div> 제목 : <input v-model="title"></div>
-		<input type="file" id="file1" name="file1">
+		<input type="file" id="file1" name="file1" multiple>
         
 		<div style="width: 500px; height: 300px;">
 			<div id="editor">
@@ -62,8 +62,13 @@
 						alert("저장되었습니다.");
 						if($("#file1")[0].files.length > 0) {
 							let form = new FormData();
-	            			form.append("file1", $("#file1")[0].files[0]);
-	            			form.append("boardNo", data.boardNo); // pk
+	            			// form.append("file1", $("#file1")[0].files[0]);
+	            			for(let i = 0; i <$("#file1")[0].files.length; i++) {
+								form.append("file1", $("#file1")[0].files[i]);
+							}
+							
+							form.append("boardNo", data.boardNo); // pk
+
 	            			self.upload(form);
 						} else {
 							location.href = "/board/list.do";
