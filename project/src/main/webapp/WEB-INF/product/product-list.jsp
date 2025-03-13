@@ -16,8 +16,8 @@
 </head>
 
 <body>
+    <jsp:include page="../common/header.jsp"/>
     <div id="app">
-        <jsp:include page="../common/header.jsp"/>
         <main>
             <section class="product-list">
                 <!-- 제품 항목 -->
