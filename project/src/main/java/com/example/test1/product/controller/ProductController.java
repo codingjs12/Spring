@@ -73,60 +73,56 @@ public class ProductController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	@RequestMapping("/product/fileUpload.dox")
-	public String result(@RequestParam("file1") List<MultipartFile> multi,
-			@RequestParam("itemNo") int itemNo, HttpServletRequest request,
-			HttpServletResponse response, Model model) {
-	
-//		System.out.println(multi.size());
-		
-		String url = null;
-		String path="c:\\img";
-		
-		try {
-			for(MultipartFile file:multi) {
-//				String uploadpath = request.getServletContext().getRealPath(path);
-				String uploadpath = path;
-				String originFilename = file.getOriginalFilename();
-				String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
-				long size = file.getSize();
-				String saveFileName = Common.genSaveFileName(extName);
-				
-				System.out.println("uploadpath : " + uploadpath);
-				System.out.println("originFilename : " + originFilename);
-				System.out.println("extensionName : " + extName);
-				System.out.println("size : " + size);
-				System.out.println("saveFileName : " + saveFileName);
-				String path2 = System.getProperty("user.dir");
-				System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img");
-				if(!file.isEmpty()) {
-				
-					File files = new File(path2 + "\\src\\main\\webapp\\img", saveFileName);
-					file.transferTo(files);
-				
-					HashMap<String, Object> map = new HashMap<>();
-					map.put("filename", saveFileName);
-					map.put("path", "../img/" + saveFileName);
-					map.put("originFilename", originFilename);
-					map.put("extName", extName);
-					map.put("size", size);
-					map.put("itemNo", itemNo);
-				
-					// insert 쿼리 실행
-					productService.addProductImg(map);
-				
-					model.addAttribute("filename", file.getOriginalFilename());
-					model.addAttribute("uploadPath", files.getAbsolutePath());
+	// controller
+		@RequestMapping("/product/fileUpload.dox")
+		public String result(@RequestParam("file1") List<MultipartFile> files, @RequestParam("itemNo") int itemNo,
+				HttpServletRequest request, HttpServletResponse response, Model model) {
+
+			String url = null;
+			String path = "c:\\img";
+			boolean thumbFlg = true;
+			try {
+				for (MultipartFile multi : files) {
+					// String uploadpath = request.getServletContext().getRealPath(path);
+					String uploadpath = path;
+					String originFilename = multi.getOriginalFilename();
+					String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
+					long size = multi.getSize();
+					String saveFileName = Common.genSaveFileName(extName);
+
+					System.out.println("uploadpath : " + uploadpath);
+					System.out.println("originFilename : " + originFilename);
+					System.out.println("extensionName : " + extName);
+					System.out.println("size : " + size);
+					System.out.println("saveFileName : " + saveFileName);
+					String path2 = System.getProperty("user.dir");
+					System.out.println("Working Directory = " + path2 + "\\src\\webapp\\img");
+					if (!multi.isEmpty()) {
+						File file = new File(path2 + "\\src\\main\\webapp\\img", saveFileName);
+						multi.transferTo(file);
+
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						map.put("filename", saveFileName);
+						map.put("path", "../img/" + saveFileName);
+//						map.put("originFilename", originFilename);
+//						map.put("extName", extName); // 확장자
+//						map.put("size", size);
+						map.put("itemNo", itemNo);
+						String thumbNail = thumbFlg ? "Y" : "N";
+						map.put("thumbNail", thumbNail);
+						// insert 쿼리 실행
+						productService.addProductImg(map);
+						thumbFlg = false;
+
+
+					}
 				}
-			
+
+				return "redirect:/product/list.do";
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 			return "redirect:/product/list.do";
-			
-		} catch(Exception e) {
-			System.out.println(e);
 		}
-		
-		return "redirect:/product/list.do";
-	}
 
 }

@@ -29,5 +29,8 @@ public class CommonController {
 		
 		return new Gson().toJson(resultMap);
 	}
+	
+	
+	
 
 }

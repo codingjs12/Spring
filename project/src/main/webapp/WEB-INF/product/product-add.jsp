@@ -15,8 +15,8 @@
 <style>
 </style>
 <body>
+    <jsp:include page="../common/header.jsp"/>
 	<div id="app">
-        <jsp:include page="../common/header.jsp"/>
         <div>
             제품명 :
             <input v-model="pro.itemName">
@@ -26,10 +26,15 @@
             <input v-model="pro.price">
         </div>
         <div>
-            설명 :
+            제품 설명 :
             <input v-model="pro.itemInfo">
         </div>
-        <input type="file" id="file1" name="file1" multiple>
+        <div>
+            썸네일 : <input type="file" id="thumbFile" name="thumbFile">
+        </div>
+        <div>
+            설명 : <input type="file" id="file1" name="file1" multiple>
+        </div>
         <button @click="fnInsert">제품 등록</button>
 	</div>
 </body>

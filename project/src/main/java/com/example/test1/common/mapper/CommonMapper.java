@@ -11,5 +11,6 @@ import com.example.test1.common.model.Menu;
 public interface CommonMapper {
 
 	List<Menu> selectMenuList(HashMap<String, Object> map);
+	
 
 }

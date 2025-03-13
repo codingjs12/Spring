@@ -10,4 +10,5 @@ public class Menu {
 	private String menuType;
 	private String menuUrl;
 	private int depth;
+	private int subCnt;
 }

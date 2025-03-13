@@ -41,9 +41,12 @@
             };
         },
         methods: {
-            fnProductList() {
+            fnProductList(keyword) {
                 let self = this;
-                let nparmap = {};
+                let nparmap = {
+                    keyword : keyword
+                };
+                console.log(keyword);
                 $.ajax({
                     url: "/product/list.dox",
                     dataType: "json",
@@ -61,7 +64,7 @@
         },
         mounted() {
             let self = this;
-            self.fnProductList();
+            self.fnProductList("");
         }
     });
     app.mount('#app');

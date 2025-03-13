@@ -103,15 +103,15 @@
 					}
 				});
             },
-            fnAdd : function(){
+            fnAdd(){
                 // /board/add.do 주소로 이동
                 // board-add.jsp 페이지 화면을 띄움
                 location.href = "/board/add.do";
             },
-            fnView : function(boardNo){
+            fnView(boardNo){
                 pageChange("/board/view.do", {boardNo : boardNo});
             },
-            fnGetUser : function(userId){
+            fnGetUser(userId){
                 let self = this;
 				let nparmap = {
                     userId : userId
@@ -126,7 +126,7 @@
 					}
 				});
             },
-            fnRemove : function(){
+            fnRemove(){
                 let self = this;
 				let nparmap = {
                     selectList : JSON.stringify(self.selectList)
@@ -143,7 +143,7 @@
 					}
 				});
             },
-            fnAllCheck : function() {
+            fnAllCheck() {
                 let self = this;
                 self.checked = !self.checked;
                 if(self.checked){
@@ -154,7 +154,7 @@
                     self.selectList = [];
                 }   
             },
-            fnPage: function (num) {
+            fnPage(num) {
                 let self = this;
                 self.page = num;
                 self.fnBoardList();

@@ -1,69 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 상세보기</title>
-    <link rel="stylesheet" href="../css/product-style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script src="/js/page-change.js"></script>
+    <title>쇼핑몰 헤더</title>
+    <link rel="stylesheet" href="../css/product-style.css">
+    <style>
+       
+    </style>
 </head>
+
 <body>
+    <jsp:include page="../common/header.jsp" />
     <div id="app">
-        <jsp:include page="../common/header.jsp"/>
-        <main>
-            <section class="product-view">
-                <!-- AJAX로 가져온 상품 상세 정보 표시 -->
-                <div>
-                    <img :src="product.filePath" alt="상품 이미지">
-                    <h1>{{product.itemName}}</h1>
-                    <p>{{product.itemInfo}}</p>
-                    <p class="price">₩{{product.price}}</p>
-                    <!-- 추가 정보가 있다면 여기에 표시 -->
-                    <button @click="goBack">뒤로가기</button>
+
+        <!-- 제품 상세 정보 -->
+        <section class="product-detail">
+            <div class="product-image-container">
+                <img :src="info.filePath" alt="제품 이미지" id="mainImage">
+                <!-- 이미지 슬라이드 -->
+                <div class="product-image-thumbnails">
+                    <img v-for="(img, index) in imgList" :src="img.filePath" alt="제품 썸네일" @click="changeImage(img.filePath)">
                 </div>
-                <div>
-                    <p>상품 정보를 불러오는 중입니다...</p>
-                </div>
-            </section>
-        </main>
+            </div>
+            <div class="product-info">
+                <h1>{{ info.itemName }}</h1>
+                <p>{{ info.itemInfo }}</p>
+                <p class="price">₩ {{ info.price }}</p>
+                <button class="buy-btn" @click="fnPayment()">구매하기</button>
+            </div>
+        </section>
     </div>
-    
-    <script>
-        const app = Vue.createApp({
-            data() {
-                return {
-                    product: "",
-                    itemNo: "${map.itemNo}",
-                };
-            },
-            methods: {
-                fnProductView() {
-                    let self = this;
-                    let nparmap = {
-                        itemNo : self.itemNo
-                    }
-                    $.ajax({
-                        url: "/product/view.dox",
-                        dataType: "json",
-                        type: "POST",
-                        data: nparmap,
-                        success: (data) => {
-                            console.log(data);
-                            self.product = data.product;
-                        }
-                    });
-                }
-            },
-            mounted() {
-                let self = this;
-                self.fnProductView();
-            }
-        });
-        app.mount('#app');
-    </script>
+
 </body>
+<script>
+    const userCode = "imp08144162";
+        IMP.init(userCode);
+    const app = Vue.createApp({
+        data() {
+            return {
+                itemNo: "${map.itemNo}",
+                info: {},
+                imgList: []
+            };
+        },
+        methods: {
+            fnProduct() {
+                var self = this;
+                var nparmap = { itemNo: self.itemNo };
+                $.ajax({
+                    url: "/product/view.dox",  // 제품 정보를 가져오는 API 엔드포인트
+                    dataType: "json",
+                    type: "POST",
+                    data: nparmap,
+                    success: function (data) {
+                        console.log(data);
+                        self.info = data.product;  // 서버로부터 받은 정보로 info를 채움
+                        self.imgList = data.imgList; // 이미지 리스트 받아오기
+                    }
+                });
+            },
+            changeImage(filePath) {
+                // 클릭된 이미지로 메인 이미지 변경
+                document.getElementById('mainImage').src = filePath;
+            },
+            fnPayment() {
+                let self = this;
+
+                IMP.request_pay({
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    merchant_uid: "merchant_" + new Date().getTime(),
+                    name: "테스트 결제",
+                    amount: self.info.price,
+                    buyer_tel: "010-0000-0000",
+                }, function (rsp) { // callback
+                    if (rsp.success) {
+                        // 결제 성공 시
+                        alert("성공");
+                        console.log(rsp);
+                        
+                    } else {
+                        // 결제 실패 시
+                        alert("실패");
+                    }
+                });
+            }
+        },
+        mounted() {
+            let self = this;
+            self.fnProduct();  // 페이지가 로드되면 제품 정보를 가져옴
+        }
+    });
+    app.mount('#app');
+</script>
+
 </html>

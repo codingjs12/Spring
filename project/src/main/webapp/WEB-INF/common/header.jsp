@@ -31,7 +31,7 @@
                 <ul>
                     <li class="dropdown" v-for="main in mainList">
                         <a class="link" href="#">{{main.menuName}}</a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" v-if="main.subCnt > 0">
                             <template v-for="sub in subList">
                                 <li v-if="main.menuId == sub.parentId"><a href="#">{{sub.menuName}}</a></li>
                             </template>
@@ -68,8 +68,8 @@
 
             <!-- 검색 바 -->
             <div class="search-bar">
-                <input type="text" placeholder="상품을 검색하세요...">
-                <button>검색</button>
+                <input type="text" placeholder="상품을 검색하세요..." v-model="keyword">
+                <button @click="fnSearch">검색</button>
             </div>
 
             <!-- 로그인 버튼 -->
@@ -84,7 +84,8 @@
             data() {
                 return {
                     mainList: [],
-                    subList: []
+                    subList: [],
+                    keyword : ""
                 };
             },
             methods: {
@@ -104,8 +105,15 @@
                             self.subList = data.subList;
                         }
                     });
+                },
+                fnSearch() {
+                    let self = this;
+                    app._component.methods.fnProductList(self.keyword);
+
+                    
                 }
             },
+            
 
             mounted() {
                 let self = this;
