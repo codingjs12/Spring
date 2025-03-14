@@ -18,6 +18,21 @@ public class CommonController {
 	@Autowired
 	CommonService commonService;
 	
+	@RequestMapping("/map.do")
+	public String map(Model model) throws Exception{
+		return "/map";
+	}
+
+	@RequestMapping("/date.do")
+	public String date(Model model) throws Exception{
+		return "/calender";
+	}
+	
+	@RequestMapping("/swiper.do")
+	public String swiper(Model model) throws Exception{
+		return "/swiper";
+	}
+	
 	
 	@RequestMapping(value = "/menu.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody 
@@ -29,6 +44,19 @@ public class CommonController {
 		
 		return new Gson().toJson(resultMap);
 	}
+	
+	@RequestMapping(value = "/payment.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody 
+	public String pay(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		resultMap = commonService.getPay(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	
 	
 	
 	

@@ -48,7 +48,8 @@
             return {
                 itemNo: "${map.itemNo}",
                 info: {},
-                imgList: []
+                imgList: [],
+                sessionId : "${sessionId}"
             };
         },
         methods: {
@@ -86,12 +87,30 @@
                         // 결제 성공 시
                         alert("성공");
                         console.log(rsp);
-                        
+                        self.fnSave(rsp.merchant_uid);
                     } else {
                         // 결제 실패 시
                         alert("실패");
                     }
                 });
+            },
+            fnSave(merchant_uid) {
+                let self = this;
+				let nparmap = {
+                    orderId : merchant_uid,
+                    userId : self.sessionId,
+                    price : self.info.price,
+                    itemNo : self.info.itemNo
+                };
+				$.ajax({
+					url:"/payment.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+									 
+					}
+				});
             }
         },
         mounted() {

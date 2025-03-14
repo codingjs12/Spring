@@ -29,6 +29,16 @@ public class CommonService {
 		
 		return resultMap;
 	}
+
+	public HashMap<String, Object> getPay(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+	
+	
 	
 
 

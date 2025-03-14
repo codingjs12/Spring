@@ -63,9 +63,9 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-                        if($("#file1")[0].files.length > 0) {
+                        if($("#file1")[0].files.length > 0 && $("#thumbFile")[0].files[0]) {
 							let form = new FormData();
-	            			// form.append("file1", $("#file1")[0].files[0]);
+	            			form.append("file1", $("#thumbFile")[0].files[0]);
 	            			for(let i = 0; i <$("#file1")[0].files.length; i++) {
 								form.append("file1", $("#file1")[0].files[i]);
 							}
