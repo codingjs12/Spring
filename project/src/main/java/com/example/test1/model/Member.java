@@ -8,7 +8,7 @@ public class Member {
 	private String userId;
 	private String userName;
 	private String address;
-	
+	private String password;
 	private String status;
 	
 	public String getUserId() {

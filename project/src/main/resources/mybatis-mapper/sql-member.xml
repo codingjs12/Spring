@@ -7,7 +7,7 @@
 	<select id="getMember" parameterType="hashmap" resultType="com.example.test1.model.Member">
 		SELECT *
 		FROM MEMBER
-		WHERE USERID = #{userId} AND PASSWORD = #{password}
+		WHERE USERID = #{userId}
 	</select>
 	
 	<insert id="insertMember" parameterType="hashmap">

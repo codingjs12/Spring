@@ -80,10 +80,10 @@
 				let self = this;
 				let nparmap = self.user;
 
-				if(self.joinFlg == false) {
+				/*if(self.joinFlg == false) {
 					alert("문자 인증을 먼저 해주세요.");
 					return;
-				}
+				} */
 
 				$.ajax({
 					url:"/member/add.dox",

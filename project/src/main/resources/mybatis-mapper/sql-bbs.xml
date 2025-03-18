@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.bbs.mapper.BbsMapper">
+	
+	<select id="selectBbsList" parameterType="hashmap" resultType="com.example.test1.bbs.model.Bbs">
+		SELECT *
+		FROM TBL_BBS
+		WHERE 1=1
+		<if test="searchOption != null and searchOption == 'all'">
+			AND (TITLE LIKE '%' || #{keyword} || '%' 
+					OR CONTENTS LIKE '%' || #{keyword} || '%') 
+		</if>
+		<if test="searchOption != null and searchOption == 'title'">
+			AND TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchOption != null and searchOption == 'contents'">
+			AND CONTENTS LIKE '%' || #{keyword} || '%' 
+		</if>
+		OFFSET #{page} ROWS FETCH NEXT #{pageSize} ROWS ONLY
+	</select>
+	
+	
+	<insert id="addBbs" parameterType="hashmap" useGeneratedKeys="true" keyColumn="BBS_NUM" keyProperty="bbsNum"> 
+		INSERT INTO TBL_BBS
+		VALUES(BBS_SEQ.NEXTVAL, #{title}, #{contents}, 0, #{sessionId}, SYSDATE, SYSDATE)
+	</insert>
+	
+	<delete id="deleteBbs" parameterType="hashmap">
+		DELETE FROM TBL_BBS
+		WHERE BBS_NUM = #{checked}
+	</delete>
+	
+	<select id="selectBbs" parameterType="hashmap" resultType="com.example.test1.bbs.model.Bbs">
+		SELECT *
+		FROM TBL_BBS
+		WHERE BBS_NUM = #{bbsNum}
+	</select>
+	
+	<update id="updateBbs" parameterType="hashmap">
+		UPDATE TBL_BBS SET 
+			TITLE = #{title},
+			CONTENTS = #{contents},
+			UDATETIME = SYSDATE
+		WHERE BBS_NUM = #{bbsNum}
+	</update>
+	
+	<select id="selectBbsCnt" parameterType="hashmap" resultType="int">
+	SELECT COUNT(*) 
+		FROM TBL_BBS
+		WHERE 1=1
+		<if test="searchOption != null and searchOption == 'all'">
+			AND (TITLE LIKE '%' || #{keyword} || '%' 
+					OR CONTENTS LIKE '%' || #{keyword} || '%') 
+		</if>
+		<if test="searchOption != null and searchOption == 'title'">
+			AND TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchOption != null and searchOption == 'contents'">
+			AND CONTENTS LIKE '%' || #{keyword} || '%' 
+		</if>
+	</select>
+	
+	
+	<insert id="insertFile" parameterType="hashmap">
+		INSERT INTO BOARD_FILE
+		VALUES(FILE_SEQ.NEXTVAL, #{bbsNum}, #{path}, #{filename}, #{originFilename}, #{size}, #{extName})
+	</insert>
+</mapper>
